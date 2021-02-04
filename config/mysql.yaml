@@ -1,0 +1,8 @@
+host: 139.9.140.136
+port: 3307
+user: root
+password: 19981108
+db_name: vhoj
+charset: utf8mb4
+loc: Local
+parse_time: true

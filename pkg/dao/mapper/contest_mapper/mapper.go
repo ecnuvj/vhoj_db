@@ -1,0 +1,1 @@
+package contest_mapper
