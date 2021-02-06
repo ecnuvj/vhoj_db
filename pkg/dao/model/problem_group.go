@@ -1,9 +1,11 @@
 package model
 
-import "github.com/ecnuvj/vhoj_db/pkg/dao/model/base"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 type ProblemGroup struct {
-	base.Model
+	gorm.Model
 	RawProblemId uint
 	GroupId      uint
 	MainProblem  bool

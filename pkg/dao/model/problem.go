@@ -1,10 +1,11 @@
 package model
 
-import "github.com/ecnuvj/vhoj_db/pkg/dao/model/base"
+import (
+	"github.com/jinzhu/gorm"
+)
 
 type Problem struct {
-	base.Model
-	ProblemId    uint `gorm:"primary_key"`
+	gorm.Model
 	GroupId      uint
 	RawProblemId uint
 	Status       int32

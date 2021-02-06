@@ -1,6 +1,6 @@
 package model
 
 type CompileInfo struct {
-	SubmissionId uint `gorm:"primary_key"`
-	Info         string
+	SubmissionId uint
+	Info         string `gorm:"type:text"`
 }

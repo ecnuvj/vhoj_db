@@ -3,7 +3,7 @@ package mapper
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/bqxtt/vhoj_common/pkg/common/constants/language"
+	"github.com/ecnuvj/vhoj_common/pkg/common/constants/language"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/datasource"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/submission_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/user_mapper"
@@ -69,7 +69,7 @@ func TestSubmissionMapperAddSubmission(t *testing.T) {
 	connectDB()
 	submission := &model.Submission{
 		SubmissionCode: &model.SubmissionCode{
-			SourceCode: "JTIzaW5jbHVkZSUzQ2JpdHMlMkZzdGRjJTJCJTJCLmglM0UlMEF1c2luZyUyMG5hbWVzcGFjZSUyMHN0ZCUzQiUwQWludCUyMG1haW4oKSUwQSU3QiUwQWludCUyMGElMkNiJTNCJTBBd2hpbGUoY2luJTIwJTNFJTNFJTIwYSUyMCUzRSUzRSUyMGIpJTBBJTdCJTBBY291dCUyMCUzQyUzQyUyMGElMjAlMkIlMjBiJTIwJTNDJTNDJTIwZW5kbCUzQiUwQSU3RCUwQXJldHVybiUyMDAlM0IlMEElN0Q=",
+			SourceCode: "I2luY2x1ZGUgPHN0ZGlvLmg%2BCgppbnQgbWFpbigpCnsKICAgIGludCBhLGI7CiAgICBzY2FuZigiJWQgJWQiLCZhLCAmYik7CiAgICBwcmludGYoIiVkXG4iLGErYik7CiAgICByZXR1cm4gMDsKfQ%3D%3D",
 			CodeLength: 0,
 		},
 		ProblemId:  0,

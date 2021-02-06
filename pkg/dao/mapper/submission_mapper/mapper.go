@@ -1,7 +1,7 @@
 package submission_mapper
 
 import (
-	"github.com/bqxtt/vhoj_common/pkg/common/constants/status_type"
+	"github.com/ecnuvj/vhoj_common/pkg/common/constants/status_type"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/model"
 	"github.com/jinzhu/gorm"
 )
@@ -54,7 +54,7 @@ func (s *SubmissionMapperImpl) UpdateSubmissionCEInfoById(submissionId uint, inf
 			}
 		}
 	} else {
-		result := s.DB.Model(&compileInfo).Update(&compileInfo)
+		result := s.DB.Model(&compileInfo).Where("submission_id = ?", submissionId).Update(&compileInfo)
 		if result.Error != nil {
 			return result.Error
 		}
