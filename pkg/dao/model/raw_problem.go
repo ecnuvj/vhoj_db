@@ -14,8 +14,8 @@ type RawProblem struct {
 	Input           string
 	Output          string
 	Hint            string
-	RemoteOJ        remote_oj.RemoteOJ
-	RemoteProblemId string
+	RemoteOJ        remote_oj.RemoteOJ `gorm:"unique_index:uni_idx_pid"`
+	RemoteProblemId string             `gorm:"unique_index:uni_idx_pid"`
 	TimeLimit       string
 	MemoryLimit     string
 	Spj             string

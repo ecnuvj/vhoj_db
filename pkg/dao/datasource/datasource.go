@@ -2,6 +2,7 @@ package datasource
 
 import (
 	"fmt"
+	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/problem_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/submission_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/user_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/model"
@@ -53,8 +54,19 @@ func ConnectDB(path string) error {
 func initMappers() {
 	user_mapper.InitMapper(DB)
 	submission_mapper.InitMapper(DB)
+	problem_mapper.InitMapper(DB)
 }
 
 func migrateTables() {
-	DB.AutoMigrate(&model.User{}, &model.UserAuth{}, &model.Role{}, &model.Submission{}, &model.SubmissionCode{}, &model.CompileInfo{})
+	DB.AutoMigrate(
+		&model.User{},
+		&model.UserAuth{},
+		&model.Role{},
+		&model.Submission{},
+		&model.SubmissionCode{},
+		&model.CompileInfo{},
+		&model.RawProblem{},
+		&model.ProblemGroup{},
+		&model.Problem{},
+	)
 }

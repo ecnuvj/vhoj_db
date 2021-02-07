@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/ecnuvj/vhoj_common/pkg/common/constants/language"
+	"github.com/ecnuvj/vhoj_common/pkg/common/constants/remote_oj"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/datasource"
+	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/problem_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/submission_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/user_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/model"
@@ -79,7 +81,6 @@ func TestSubmissionMapperAddSubmission(t *testing.T) {
 		MemoryCost: 0,
 		Language:   language.CPP,
 		ContestId:  0,
-		SourceOj:   0,
 		RealRunId:  "",
 	}
 	ret, err := submission_mapper.SubmissionMapper.AddSubmission(submission)
@@ -100,4 +101,36 @@ func TestSubmissionMapperFindSubmission(t *testing.T) {
 	}
 	str, _ := json.Marshal(submission)
 	fmt.Println(string(str))
+}
+
+func TestProblemMapperAddOrModifyRawProblem(t *testing.T) {
+	connectDB()
+	rawProblem := &model.RawProblem{
+		Title:           "problem 1000",
+		RemoteOJ:        remote_oj.HDU,
+		RemoteProblemId: "1000",
+	}
+	problem_mapper.ProblemMapper.AddOrModifyRawProblem(rawProblem)
+}
+
+func TestProblemMapperImpl_FindGroupProblemsById(t *testing.T) {
+	connectDB()
+	result, err := problem_mapper.ProblemMapper.FindGroupProblemsById(1)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(result)
+	fmt.Println(string(str))
+}
+
+func TestProblemMapperImpl_FindAllProblems(t *testing.T) {
+	connectDB()
+	result, count, err := problem_mapper.ProblemMapper.FindAllProblems(1, 1)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(result)
+	fmt.Printf("count: %v,result: %v", count, string(str))
 }
