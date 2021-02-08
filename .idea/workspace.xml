@@ -20,16 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a941e13b-fbdd-4897-b8f8-792a470590b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/pkg/common/constant.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/util/page_util.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/datasource/datasource.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/datasource/datasource.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/mapper_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/mapper_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/problem.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/problem.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/problem_group.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/problem_group.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/raw_problem.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/raw_problem.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/submission_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/submission_mapper/mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/dao/model/user_auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/user_auth.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +73,8 @@
       <recent name="D:\Users\14861\go\src\github.com\vhoj_db\pkg\dao\model\base" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestProblemMapperImpl_FindAllProblems in github.com/ecnuvj/vhoj_db/pkg/dao/mapper">
-    <configuration name="TestProblemMapperAddOrModifyRawProblem in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestUserMapperUpdateUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper">
+    <configuration name="TestSubmissionMapperImpl_AddOrModifySubmissionById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -88,10 +82,10 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestProblemMapperAddOrModifyRawProblem\E$" />
+      <pattern value="^\QTestSubmissionMapperImpl_AddOrModifySubmissionById\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestProblemMapperImpl_FindAllProblems in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestSubmissionMapperImpl_ResetSubmissionById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -99,10 +93,10 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestProblemMapperImpl_FindAllProblems\E$" />
+      <pattern value="^\QTestSubmissionMapperImpl_ResetSubmissionById\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestProblemMapperImpl_FindGroupProblemsById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestSubmissionMapperImpl_UpdateSubmissionById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -110,21 +104,10 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestProblemMapperImpl_FindGroupProblemsById\E$" />
+      <pattern value="^\QTestSubmissionMapperImpl_UpdateSubmissionById\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestProblemMapperImpl_FindGroupProblemsById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper/problem_mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="vhoj_db" />
-      <working_directory value="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper/problem_mapper" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestProblemMapperImpl_FindGroupProblemsById\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestUserMapperAddUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestUserMapperAddUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -135,13 +118,24 @@
       <pattern value="^\QTestUserMapperAddUser\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="TestUserMapperUpdateUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="vhoj_db" />
+      <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestUserMapperUpdateUser\E$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestProblemMapperImpl_FindAllProblems in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestProblemMapperImpl_FindGroupProblemsById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestProblemMapperImpl_FindGroupProblemsById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper/problem_mapper" />
-        <item itemvalue="Go Test.TestProblemMapperAddOrModifyRawProblem in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestUserMapperAddUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper (1)" />
+        <item itemvalue="Go Test.TestUserMapperUpdateUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestSubmissionMapperImpl_AddOrModifySubmissionById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestUserMapperAddUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestSubmissionMapperImpl_ResetSubmissionById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestSubmissionMapperImpl_UpdateSubmissionById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       </list>
     </recent_temporary>
   </component>
@@ -176,10 +170,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="501" y="233" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.864@0.0.1536.864" timestamp="1612253217948" />
-    <state x="544" y="138" key="#com.intellij.ide.util.MemberChooser" timestamp="1612362384086">
+    <state x="544" y="138" key="#com.intellij.ide.util.MemberChooser" timestamp="1612774858565">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="544" y="138" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1612362384086" />
+    <state x="544" y="138" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1612774858565" />
     <state x="425" y="209" key="EditFileWatcherDialog" timestamp="1612154678453">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -188,22 +182,22 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="427" y="262" key="FileDocumentManager.FileCacheConflict/0.0.1536.864@0.0.1536.864" timestamp="1612161461292" />
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1612697487768">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1612780940191">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1612697487768" />
-    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1612697487766">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1612780940191" />
+    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1612780940190">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1612697487766" />
-    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1612697487766">
+    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1612780940190" />
+    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1612780940190">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1612697487766" />
-    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1612697487767">
+    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1612780940190" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1612780940190">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1612697487767" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1612780940190" />
     <state x="270" y="77" key="SettingsEditor" timestamp="1612154682328">
       <screen x="0" y="0" width="1536" height="864" />
     </state>

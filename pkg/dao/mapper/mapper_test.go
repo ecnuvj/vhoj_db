@@ -41,14 +41,17 @@ func TestUserMapperUpdateUser(t *testing.T) {
 	connectDB()
 	user := &model.User{
 		Model: gorm.Model{
-			ID: 1,
+			ID: 9,
 		},
 		UserAuth: &model.UserAuth{
-			Password: "123456",
+			Model: gorm.Model{
+				ID: 1,
+			},
+			Password: "123456456",
 		},
 		Email: "1486126243@qq.com",
 	}
-	//user_auth 会被新建
+	//user_auth 会被新建 (因为未指定user_auth的主键)
 	err := user_mapper.UserMapper.UpdateUser(user)
 	if err != nil {
 		fmt.Printf("err: %v", err)
@@ -83,7 +86,7 @@ func TestSubmissionMapperAddSubmission(t *testing.T) {
 		ContestId:  0,
 		RealRunId:  "",
 	}
-	ret, err := submission_mapper.SubmissionMapper.AddSubmission(submission)
+	ret, err := submission_mapper.SubmissionMapper.AddOrModifySubmission(submission)
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
@@ -133,4 +136,49 @@ func TestProblemMapperImpl_FindAllProblems(t *testing.T) {
 	}
 	str, _ := json.Marshal(result)
 	fmt.Printf("count: %v,result: %v", count, string(str))
+}
+
+func TestSubmissionMapperImpl_UpdateSubmissionById(t *testing.T) {
+	connectDB()
+	submission := &model.Submission{
+		Model:      gorm.Model{ID: 5},
+		TimeCost:   5,
+		MemoryCost: 5,
+		RealRunId:  "11111",
+	}
+	submission, err := submission_mapper.SubmissionMapper.UpdateSubmissionById(submission)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(submission)
+	fmt.Println(string(str))
+}
+
+func TestSubmissionMapperImpl_ResetSubmissionById(t *testing.T) {
+	connectDB()
+	err := submission_mapper.SubmissionMapper.ResetSubmissionById(5)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestSubmissionMapperImpl_AddOrModifySubmissionById(t *testing.T) {
+	connectDB()
+	submission, err := submission_mapper.SubmissionMapper.FindSubmissionById(7)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return
+	}
+	str, _ := json.Marshal(submission)
+	fmt.Println(string(str))
+	submission, err = submission_mapper.SubmissionMapper.AddOrModifySubmission(submission)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return
+	}
+	str, _ = json.Marshal(submission)
+	fmt.Println(string(str))
+
 }
