@@ -6,12 +6,14 @@ import (
 	"github.com/ecnuvj/vhoj_common/pkg/common/constants/language"
 	"github.com/ecnuvj/vhoj_common/pkg/common/constants/remote_oj"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/datasource"
+	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/contest_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/problem_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/submission_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/user_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/model"
 	"github.com/jinzhu/gorm"
 	"testing"
+	"time"
 )
 
 func connectDB() {
@@ -180,5 +182,79 @@ func TestSubmissionMapperImpl_AddOrModifySubmissionById(t *testing.T) {
 	}
 	str, _ = json.Marshal(submission)
 	fmt.Println(string(str))
+}
 
+func TestProblemMapperImpl_AddProblemSubmittedCountById(t *testing.T) {
+	connectDB()
+	err := problem_mapper.ProblemMapper.AddProblemSubmittedCountById(1)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return
+	}
+}
+
+func TestProblemMapperImpl_AddProblemAcceptedCountById(t *testing.T) {
+	connectDB()
+	err := problem_mapper.ProblemMapper.AddProblemAcceptedCountById(1)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return
+	}
+}
+
+func TestProblemMapperImpl_GetProblemById(t *testing.T) {
+	connectDB()
+	problem, err := problem_mapper.ProblemMapper.GetProblemById(2)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(problem)
+	fmt.Println(string(str))
+}
+
+func TestProblemMapperImpl_SearchProblemByCondition(t *testing.T) {
+	connectDB()
+	problems, _, err := problem_mapper.ProblemMapper.SearchProblemByCondition(&problem_mapper.ProblemSearchParam{
+		Title:     "pen",
+		ProblemId: 0,
+	}, 1, 1)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(problems)
+	fmt.Printf("len: %v\n", len(problems))
+	fmt.Println(string(str))
+}
+
+func TestContestMapperImpl_CreateContest(t *testing.T) {
+	connectDB()
+	contest := &model.Contest{
+		Title:       "first contest",
+		Description: "hello world",
+		UserId:      1,
+		ProblemNum:  2,
+		ProblemIds:  []uint{2, 3},
+		StartTime:   time.Now(),
+		EndTime:     time.Now().Add(time.Hour * 5),
+	}
+	contest, err := contest_mapper.ContestMapper.CreateContest(contest)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(contest)
+	fmt.Println(string(str))
+}
+
+func TestContestMapperImpl_FindAllContests(t *testing.T) {
+	connectDB()
+	contests, _, err := contest_mapper.ContestMapper.FindAllContests(1, 5)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(contests)
+	fmt.Println(string(str))
 }

@@ -1,17 +1,18 @@
 package model
 
 import (
-	"github.com/ecnuvj/vhoj_db/pkg/dao/model/base"
+	"github.com/jinzhu/gorm"
 	"time"
 )
 
 type Contest struct {
-	base.Model
-	ContestId   uint `gorm:"primary_key"`
+	gorm.Model
 	Title       string
 	Description string
 	UserId      uint
+	User        *User
 	ProblemNum  int64
+	ProblemIds  []uint `gorm:"-"`
 	StartTime   time.Time
 	EndTime     time.Time
 }

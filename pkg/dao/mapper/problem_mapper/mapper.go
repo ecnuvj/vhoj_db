@@ -1,15 +1,25 @@
 package problem_mapper
 
 import (
+	"fmt"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/model"
 	"github.com/ecnuvj/vhoj_db/pkg/util"
 	"github.com/jinzhu/gorm"
 )
 
+type ProblemSearchParam struct {
+	Title     string
+	ProblemId uint
+}
+
 type IProblemMapper interface {
 	AddOrModifyRawProblem(*model.RawProblem) (*model.RawProblem, error)
 	FindGroupProblemsById(uint) ([]*model.ProblemGroup, error)
-	FindAllProblems(page int32, pageSize int32) ([]*model.Problem, uint32, error)
+	FindAllProblems(int32, int32) ([]*model.Problem, int32, error)
+	AddProblemSubmittedCountById(uint) error
+	AddProblemAcceptedCountById(uint) error
+	GetProblemById(uint) (*model.Problem, error)
+	SearchProblemByCondition(*ProblemSearchParam, int32, int32) ([]*model.Problem, int32, error)
 }
 
 var ProblemMapper IProblemMapper
@@ -65,9 +75,9 @@ func (p *ProblemMapperImpl) FindGroupProblemsById(problemId uint) ([]*model.Prob
 	return problemGroups, nil
 }
 
-func (p *ProblemMapperImpl) FindAllProblems(page int32, pageSize int32) ([]*model.Problem, uint32, error) {
+func (p *ProblemMapperImpl) FindAllProblems(page int32, pageSize int32) ([]*model.Problem, int32, error) {
 	limit, offset := util.CalLimitOffset(page, pageSize)
-	var count uint32
+	var count int32
 	var problems []*model.Problem
 	result := p.DB.
 		Model(&model.Problem{}).
@@ -80,4 +90,77 @@ func (p *ProblemMapperImpl) FindAllProblems(page int32, pageSize int32) ([]*mode
 		return nil, 0, result.Error
 	}
 	return problems, count, nil
+}
+
+func (p *ProblemMapperImpl) AddProblemSubmittedCountById(problemId uint) error {
+	if problemId <= 0 {
+		return fmt.Errorf("problem id is incorrect")
+	}
+	result := p.DB.
+		Model(&model.Problem{Model: gorm.Model{ID: problemId}}).
+		Update("submitted", gorm.Expr("submitted + ?", 1))
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+func (p *ProblemMapperImpl) AddProblemAcceptedCountById(problemId uint) error {
+	if problemId <= 0 {
+		return fmt.Errorf("problem id is incorrect")
+	}
+	result := p.DB.
+		Model(&model.Problem{Model: gorm.Model{ID: problemId}}).
+		Update("accepted", gorm.Expr("accepted + ?", 1))
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (p *ProblemMapperImpl) GetProblemById(problemId uint) (*model.Problem, error) {
+	if problemId <= 0 {
+		return nil, fmt.Errorf("problem id is incorrect")
+	}
+	var problem = &model.Problem{
+		Model: gorm.Model{
+			ID: problemId,
+		},
+		RawProblem: &model.RawProblem{},
+	}
+	result := p.DB.
+		Model(problem).
+		First(problem).
+		Related(problem.RawProblem)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return problem, nil
+}
+
+func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, pageNo int32, pageSize int32) ([]*model.Problem, int32, error) {
+	if (param.ProblemId == 0 && param.Title == "") || param == nil {
+		return nil, 0, nil
+	}
+	limit, offset := util.CalLimitOffset(pageNo, pageSize)
+	result := p.DB.Debug()
+	if param.Title != "" {
+		result = result.Preload("RawProblem", "title LIKE ?", fmt.Sprintf("%%%v%%", param.Title))
+	} else {
+		result = result.Preload("RawProblem")
+	}
+	if param.ProblemId != 0 {
+		result = result.Where("id = ?", param.ProblemId)
+	}
+	var problems []*model.Problem
+	result = result.Find(&problems)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+	retProblems := make([]*model.Problem, 0)
+	for _, problem := range problems {
+		if problem.RawProblem != nil {
+			retProblems = append(retProblems, problem)
+		}
+	}
+	return retProblems[offset : offset+limit], int32(len(retProblems)), nil
 }

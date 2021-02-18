@@ -10,6 +10,6 @@ type Problem struct {
 	RawProblemId uint
 	RawProblem   *RawProblem
 	Status       int32
-	Submitted    int64
-	Accepted     int64
+	Submitted    int64 `gorm:"default:0"`
+	Accepted     int64 `gorm:"default:0"`
 }

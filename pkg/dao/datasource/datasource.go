@@ -2,6 +2,7 @@ package datasource
 
 import (
 	"fmt"
+	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/contest_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/problem_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/submission_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/user_mapper"
@@ -55,6 +56,7 @@ func initMappers() {
 	user_mapper.InitMapper(DB)
 	submission_mapper.InitMapper(DB)
 	problem_mapper.InitMapper(DB)
+	contest_mapper.InitMapper(DB)
 }
 
 func migrateTables() {
@@ -68,5 +70,7 @@ func migrateTables() {
 		&model.RawProblem{},
 		&model.ProblemGroup{},
 		&model.Problem{},
+		&model.Contest{},
+		&model.ContestProblem{},
 	)
 }
