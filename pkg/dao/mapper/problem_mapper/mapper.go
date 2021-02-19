@@ -18,7 +18,7 @@ type IProblemMapper interface {
 	FindAllProblems(int32, int32) ([]*model.Problem, int32, error)
 	AddProblemSubmittedCountById(uint) error
 	AddProblemAcceptedCountById(uint) error
-	GetProblemById(uint) (*model.Problem, error)
+	FindProblemById(uint) (*model.Problem, error)
 	SearchProblemByCondition(*ProblemSearchParam, int32, int32) ([]*model.Problem, int32, error)
 }
 
@@ -117,7 +117,7 @@ func (p *ProblemMapperImpl) AddProblemAcceptedCountById(problemId uint) error {
 	return nil
 }
 
-func (p *ProblemMapperImpl) GetProblemById(problemId uint) (*model.Problem, error) {
+func (p *ProblemMapperImpl) FindProblemById(problemId uint) (*model.Problem, error) {
 	if problemId <= 0 {
 		return nil, fmt.Errorf("problem id is incorrect")
 	}

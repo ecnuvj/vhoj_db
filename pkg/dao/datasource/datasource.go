@@ -72,5 +72,7 @@ func migrateTables() {
 		&model.Problem{},
 		&model.Contest{},
 		&model.ContestProblem{},
+		&model.ContestParticipant{},
+		&model.ContestAdmin{},
 	)
 }

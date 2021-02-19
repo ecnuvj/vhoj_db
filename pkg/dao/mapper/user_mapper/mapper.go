@@ -8,6 +8,7 @@ import (
 type IUserMapper interface {
 	AddUser(*model.User) error
 	UpdateUser(*model.User) error
+	FindUsersByIds([]uint) ([]*model.User, error)
 }
 
 var UserMapper IUserMapper
@@ -34,4 +35,15 @@ func (u *UserMapperImpl) UpdateUser(user *model.User) error {
 		return result.Error
 	}
 	return nil
+}
+
+func (u *UserMapperImpl) FindUsersByIds(userIds []uint) ([]*model.User, error) {
+	var users []*model.User
+	result := u.DB.
+		Model(&model.User{}).
+		Find(&users, userIds)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return users, nil
 }

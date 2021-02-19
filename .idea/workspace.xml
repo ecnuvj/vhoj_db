@@ -25,11 +25,7 @@
       <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/contest_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/contest_mapper/mapper.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/mapper_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/mapper_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/contest.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/contest.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/contest_admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/contest_admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/contest_participant.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/contest_participant.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/contest_problem.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/contest_problem.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/problem.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/problem.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/user_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/user_mapper/mapper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +75,8 @@
       <recent name="D:\Users\14861\go\src\github.com\vhoj_db\pkg\dao\model\base" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestContestMapperImpl_FindAllContests in github.com/ecnuvj/vhoj_db/pkg/dao/mapper">
-    <configuration name="TestContestMapperImpl_CreateContest in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestUserMapperImpl_FindUsersByIds in github.com/ecnuvj/vhoj_db/pkg/dao/mapper">
+    <configuration name="TestContestMapperImpl_AddContestAdmins in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -88,7 +84,18 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestContestMapperImpl_CreateContest\E$" />
+      <pattern value="^\QTestContestMapperImpl_AddContestAdmins\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestContestMapperImpl_AddContestParticipants in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="vhoj_db" />
+      <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestContestMapperImpl_AddContestParticipants\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestContestMapperImpl_FindAllContests in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -102,7 +109,7 @@
       <pattern value="^\QTestContestMapperImpl_FindAllContests\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestProblemMapperImpl_AddProblemAcceptedCountById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestContestMapperImpl_FindContestById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -110,10 +117,10 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestProblemMapperImpl_AddProblemAcceptedCountById\E$" />
+      <pattern value="^\QTestContestMapperImpl_FindContestById\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestProblemMapperImpl_GetProblemById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestUserMapperImpl_FindUsersByIds in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -121,27 +128,16 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestProblemMapperImpl_GetProblemById\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestProblemMapperImpl_SearchProblemByCondition in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="vhoj_db" />
-      <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestProblemMapperImpl_SearchProblemByCondition\E$" />
+      <pattern value="^\QTestUserMapperImpl_FindUsersByIds\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestUserMapperImpl_FindUsersByIds in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestContestMapperImpl_AddContestAdmins in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestContestMapperImpl_AddContestParticipants in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestContestMapperImpl_FindContestById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
         <item itemvalue="Go Test.TestContestMapperImpl_FindAllContests in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestContestMapperImpl_CreateContest in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestProblemMapperImpl_SearchProblemByCondition in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestProblemMapperImpl_GetProblemById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestProblemMapperImpl_AddProblemAcceptedCountById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       </list>
     </recent_temporary>
   </component>
@@ -188,22 +184,22 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="427" y="262" key="FileDocumentManager.FileCacheConflict/0.0.1536.864@0.0.1536.864" timestamp="1612161461292" />
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1613673037116">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1613752804190">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1613673037116" />
-    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1613673037115">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1613752804190" />
+    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1613752804190">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1613673037115" />
-    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1613673037115">
+    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1613752804190" />
+    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1613752804190">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1613673037115" />
-    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1613673037115">
+    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1613752804190" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1613752804190">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1613673037115" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1613752804190" />
     <state x="270" y="77" key="SettingsEditor" timestamp="1612154682328">
       <screen x="0" y="0" width="1536" height="864" />
     </state>

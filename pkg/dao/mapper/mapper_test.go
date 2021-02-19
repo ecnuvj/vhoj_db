@@ -204,7 +204,7 @@ func TestProblemMapperImpl_AddProblemAcceptedCountById(t *testing.T) {
 
 func TestProblemMapperImpl_GetProblemById(t *testing.T) {
 	connectDB()
-	problem, err := problem_mapper.ProblemMapper.GetProblemById(2)
+	problem, err := problem_mapper.ProblemMapper.FindProblemById(2)
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
@@ -256,5 +256,45 @@ func TestContestMapperImpl_FindAllContests(t *testing.T) {
 		return
 	}
 	str, _ := json.Marshal(contests)
+	fmt.Println(string(str))
+}
+
+func TestContestMapperImpl_FindContestById(t *testing.T) {
+	connectDB()
+	contest, err := contest_mapper.ContestMapper.FindContestById(4)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(contest)
+	fmt.Println(string(str))
+}
+
+func TestContestMapperImpl_AddContestParticipants(t *testing.T) {
+	connectDB()
+	err := contest_mapper.ContestMapper.AddContestParticipants(4, []uint{1, 2, 3, 4})
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestContestMapperImpl_AddContestAdmins(t *testing.T) {
+	connectDB()
+	err := contest_mapper.ContestMapper.AddContestAdmins(4, []uint{1, 2, 3, 4})
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestUserMapperImpl_FindUsersByIds(t *testing.T) {
+	connectDB()
+	users, err := user_mapper.UserMapper.FindUsersByIds([]uint{5, 6, 7})
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(users)
 	fmt.Println(string(str))
 }
