@@ -30,13 +30,15 @@ func TestUserMapperAddUser(t *testing.T) {
 		UserAuth: &model.UserAuth{
 			Password: "123456",
 		},
+		Nickname: "bqx",
 	}
-	err := user_mapper.UserMapper.AddUser(user)
+	retUser, err := user_mapper.UserMapper.AddUser(user)
 	if err != nil {
 		fmt.Printf("add err: %v", err)
 		return
 	}
-	fmt.Println(user.ID)
+	str, _ := json.Marshal(retUser)
+	fmt.Println(string(str))
 }
 
 func TestUserMapperUpdateUser(t *testing.T) {
@@ -54,7 +56,7 @@ func TestUserMapperUpdateUser(t *testing.T) {
 		Email: "1486126243@qq.com",
 	}
 	//user_auth 会被新建 (因为未指定user_auth的主键)
-	err := user_mapper.UserMapper.UpdateUser(user)
+	_, err := user_mapper.UserMapper.UpdateUser(user)
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
@@ -295,6 +297,60 @@ func TestUserMapperImpl_FindUsersByIds(t *testing.T) {
 		fmt.Printf("err: %v", err)
 		return
 	}
+	str, _ := json.Marshal(users)
+	fmt.Println(string(str))
+}
+
+func TestUserMapperImpl_FindUserByUsername(t *testing.T) {
+	connectDB()
+	user, err := user_mapper.UserMapper.FindUserByUsername("")
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(user)
+	fmt.Println(string(str))
+}
+
+func TestUserMapperImpl_AddUserRoleByRoleName(t *testing.T) {
+	connectDB()
+	err := user_mapper.UserMapper.AddUserRoleByRoleName(2, "normal")
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestUserMapperImpl_UpdateUserRoles(t *testing.T) {
+	connectDB()
+	err := user_mapper.UserMapper.UpdateUserRoles(12, []*model.Role{
+		{Model: gorm.Model{ID: 7}},
+		{Model: gorm.Model{ID: 8}},
+		{Model: gorm.Model{ID: 9}},
+	})
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestUserMapperImpl_DeleteUserById(t *testing.T) {
+	connectDB()
+	err := user_mapper.UserMapper.DeleteUserById(10)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestUserMapperImpl_FindAllUsers(t *testing.T) {
+	connectDB()
+	users, count, err := user_mapper.UserMapper.FindAllUsers(1, 5)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	fmt.Printf("count: %v\n", count)
 	str, _ := json.Marshal(users)
 	fmt.Println(string(str))
 }

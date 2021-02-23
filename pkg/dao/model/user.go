@@ -6,10 +6,13 @@ import (
 
 type User struct {
 	gorm.Model
-	UserAuth  *UserAuth
-	Email     string
-	Nickname  string `gorm:"uniqueIndex"`
-	School    string
-	Submitted int64
-	Accepted  int64
+	UserAuth     *UserAuth
+	Email        string
+	Nickname     string `gorm:"unique_index:uidx_name"`
+	School       string
+	Roles        []*Role `gorm:"-"`
+	GenerateUser bool
+	ContestId    uint
+	Submitted    int64
+	Accepted     int64
 }

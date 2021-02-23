@@ -21,11 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a941e13b-fbdd-4897-b8f8-792a470590b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/datasource/datasource.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/datasource/datasource.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/contest_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/contest_mapper/mapper.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/mapper_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/mapper_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/user_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/user_mapper/mapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/dao/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/user.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,8 +73,8 @@
       <recent name="D:\Users\14861\go\src\github.com\vhoj_db\pkg\dao\model\base" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestUserMapperImpl_FindUsersByIds in github.com/ecnuvj/vhoj_db/pkg/dao/mapper">
-    <configuration name="TestContestMapperImpl_AddContestAdmins in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestUserMapperImpl_FindAllUsers in github.com/ecnuvj/vhoj_db/pkg/dao/mapper">
+    <configuration name="TestUserMapperAddUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -84,10 +82,10 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestContestMapperImpl_AddContestAdmins\E$" />
+      <pattern value="^\QTestUserMapperAddUser\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestContestMapperImpl_AddContestParticipants in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestUserMapperImpl_DeleteUserById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -95,10 +93,10 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestContestMapperImpl_AddContestParticipants\E$" />
+      <pattern value="^\QTestUserMapperImpl_DeleteUserById\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestContestMapperImpl_FindAllContests in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestUserMapperImpl_FindAllUsers in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -106,10 +104,10 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestContestMapperImpl_FindAllContests\E$" />
+      <pattern value="^\QTestUserMapperImpl_FindAllUsers\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestContestMapperImpl_FindContestById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestUserMapperImpl_FindUserByUsername in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -117,10 +115,10 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestContestMapperImpl_FindContestById\E$" />
+      <pattern value="^\QTestUserMapperImpl_FindUserByUsername\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestUserMapperImpl_FindUsersByIds in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestUserMapperImpl_UpdateUserRoles in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="vhoj_db" />
       <working_directory value="$PROJECT_DIR$/pkg/dao/mapper" />
       <framework value="gotest" />
@@ -128,16 +126,16 @@
       <package value="github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestUserMapperImpl_FindUsersByIds\E$" />
+      <pattern value="^\QTestUserMapperImpl_UpdateUserRoles\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestUserMapperImpl_FindUsersByIds in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestContestMapperImpl_AddContestAdmins in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestContestMapperImpl_AddContestParticipants in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestContestMapperImpl_FindContestById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
-        <item itemvalue="Go Test.TestContestMapperImpl_FindAllContests in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestUserMapperImpl_FindAllUsers in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestUserMapperImpl_FindUserByUsername in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestUserMapperAddUser in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestUserMapperImpl_DeleteUserById in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
+        <item itemvalue="Go Test.TestUserMapperImpl_UpdateUserRoles in github.com/ecnuvj/vhoj_db/pkg/dao/mapper" />
       </list>
     </recent_temporary>
   </component>
@@ -184,22 +182,38 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="427" y="262" key="FileDocumentManager.FileCacheConflict/0.0.1536.864@0.0.1536.864" timestamp="1612161461292" />
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1613752804190">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1614083464621">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1613752804190" />
-    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1613752804190">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1614083464621" />
+    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1614083464620">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1613752804190" />
-    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1613752804190">
+    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1614083464620" />
+    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1614083464619">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1613752804190" />
-    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1613752804190">
+    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1614083464619" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1614083464620">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1613752804190" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1614083464620" />
+    <state width="1493" height="277" key="GridCell.Tab.1.bottom" timestamp="1614061945720">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="277" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1614061945720" />
+    <state width="1493" height="277" key="GridCell.Tab.1.center" timestamp="1614061945710">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="277" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1614061945710" />
+    <state width="1493" height="277" key="GridCell.Tab.1.left" timestamp="1614061945710">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="277" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1614061945710" />
+    <state width="1493" height="277" key="GridCell.Tab.1.right" timestamp="1614061945720">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state width="1493" height="277" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1614061945711" />
     <state x="270" y="77" key="SettingsEditor" timestamp="1612154682328">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
