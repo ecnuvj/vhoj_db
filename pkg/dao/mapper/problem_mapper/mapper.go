@@ -14,10 +14,12 @@ type ProblemSearchParam struct {
 
 type IProblemMapper interface {
 	AddOrModifyRawProblem(*model.RawProblem) (*model.RawProblem, error)
-	FindGroupProblemsById(uint) ([]*model.ProblemGroup, error)
-	FindAllProblems(int32, int32) ([]*model.Problem, int32, error)
 	AddProblemSubmittedCountById(uint) error
 	AddProblemAcceptedCountById(uint) error
+	AddProblemGroup(*model.ProblemGroup) (*model.ProblemGroup, error)
+	UpdateProblemGroupId(uint, uint) error
+	FindGroupProblemsById(uint) ([]*model.ProblemGroup, error)
+	FindAllProblems(int32, int32) ([]*model.Problem, int32, error)
 	FindProblemById(uint) (*model.Problem, error)
 	SearchProblemByCondition(*ProblemSearchParam, int32, int32) ([]*model.Problem, int32, error)
 }
@@ -163,4 +165,24 @@ func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, 
 		}
 	}
 	return retProblems[offset : offset+limit], int32(len(retProblems)), nil
+}
+
+func (p *ProblemMapperImpl) AddProblemGroup(group *model.ProblemGroup) (*model.ProblemGroup, error) {
+	if err := p.DB.Where("raw_problem_id = ?", group.RawProblemId).Find(group).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			p.DB.Create(group)
+		}
+	}
+	return group, nil
+}
+
+func (p *ProblemMapperImpl) UpdateProblemGroupId(rawProblemId uint, groupId uint) error {
+	result := p.DB.
+		Model(&model.ProblemGroup{}).
+		Where("raw_problem_id = ?", rawProblemId).
+		Update("group_id", groupId)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }

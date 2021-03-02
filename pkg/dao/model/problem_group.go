@@ -7,7 +7,7 @@ import (
 
 type ProblemGroup struct {
 	gorm.Model
-	RawProblemId    uint
+	RawProblemId    uint `gorm:"unique_index:uidx_rawId"`
 	GroupId         uint
 	MainProblem     bool
 	RemoteOJ        remote_oj.RemoteOJ

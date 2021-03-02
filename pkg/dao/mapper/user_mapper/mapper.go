@@ -56,6 +56,7 @@ func (u *UserMapperImpl) UpdateUser(user *model.User) (*model.User, error) {
 	return user, nil
 }
 
+//contest admins participants
 func (u *UserMapperImpl) FindUsersByIds(userIds []uint) ([]*model.User, error) {
 	var users []*model.User
 	result := u.DB.

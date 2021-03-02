@@ -20,4 +20,5 @@ type RawProblem struct {
 	MemoryLimit     string
 	Spj             string
 	Std             string
+	Source          string
 }

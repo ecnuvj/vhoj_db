@@ -21,9 +21,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a941e13b-fbdd-4897-b8f8-792a470590b8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/mapper_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/mapper_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/problem_mapper/mapper.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/dao/mapper/user_mapper/mapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/mapper/user_mapper/mapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/dao/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/dao/model/problem_group.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/problem_group.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/dao/model/raw_problem.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/dao/model/raw_problem.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,22 +183,22 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="427" y="262" key="FileDocumentManager.FileCacheConflict/0.0.1536.864@0.0.1536.864" timestamp="1612161461292" />
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1614083464621">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1614089229682">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1614083464621" />
-    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1614083464620">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1614089229682" />
+    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1614089229680">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1614083464620" />
-    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1614083464619">
+    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1614089229680" />
+    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1614089229679">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1614083464619" />
-    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1614083464620">
+    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1614089229679" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1614089229682">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1614083464620" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1614089229682" />
     <state width="1493" height="277" key="GridCell.Tab.1.bottom" timestamp="1614061945720">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
