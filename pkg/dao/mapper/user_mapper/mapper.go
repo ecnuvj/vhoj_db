@@ -8,11 +8,12 @@ import (
 
 type IUserMapper interface {
 	AddUser(*model.User) (*model.User, error)
-	AddUserRoleByRoleName(uint, string) error
+	AddUserRoleByRoleName(uint, string) (*model.Role, error)
 	AddUserRoleByRoleId(uint, uint) error
 	UpdateUser(*model.User) (*model.User, error)
-	UpdateUserRoles(uint, []*model.Role) error
+	UpdateUserRoles(uint, []*model.Role) (*model.User, error)
 	FindUsersByIds([]uint) ([]*model.User, error)
+	FindUserById(uint) (*model.User, error)
 	FindUserByUsername(string) (*model.User, error)
 	FindUserRolesById(uint) ([]*model.Role, error)
 	FindAllUsers(int32, int32) ([]*model.User, int32, error)
@@ -35,10 +36,12 @@ func (u *UserMapperImpl) AddUser(user *model.User) (*model.User, error) {
 		tx.Rollback()
 		return nil, err
 	}
-	for _, r := range user.Roles {
-		if err := u.AddUserRoleByRoleName(user.ID, r.RoleName); err != nil {
+	for i, r := range user.Roles {
+		if rol, err := u.AddUserRoleByRoleName(user.ID, r.RoleName); err != nil {
 			tx.Rollback()
 			return nil, err
+		} else {
+			user.Roles[i] = rol
 		}
 	}
 	if err := tx.Commit().Error; err != nil {
@@ -49,11 +52,18 @@ func (u *UserMapperImpl) AddUser(user *model.User) (*model.User, error) {
 
 //只更新用户信息 不更新角色
 func (u *UserMapperImpl) UpdateUser(user *model.User) (*model.User, error) {
+	if user.UserAuth != nil && user.UserAuth.ID == 0 {
+		user.UserAuth = nil
+	}
 	result := u.DB.Model(&model.User{}).Update(user)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return user, nil
+	retUser, err := u.FindUserById(user.ID)
+	if err != nil {
+		return nil, err
+	}
+	return retUser, nil
 }
 
 //contest admins participants
@@ -84,15 +94,26 @@ func (u *UserMapperImpl) FindUserByUsername(username string) (*model.User, error
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	roles, err := u.FindUserRolesById(user.ID)
-	if err != nil {
-		return nil, err
-	}
+	roles, _ := u.FindUserRolesById(user.ID)
 	user.Roles = roles
 	return user, nil
 }
 
-func (u *UserMapperImpl) AddUserRoleByRoleName(userId uint, roleName string) error {
+func (u *UserMapperImpl) FindUserById(userId uint) (*model.User, error) {
+	user := &model.User{
+		Model:    gorm.Model{ID: userId},
+		UserAuth: &model.UserAuth{},
+	}
+	result := u.DB.Model(user).First(user).Related(user.UserAuth)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	roles, _ := u.FindUserRolesById(userId)
+	user.Roles = roles
+	return user, nil
+}
+
+func (u *UserMapperImpl) AddUserRoleByRoleName(userId uint, roleName string) (*model.Role, error) {
 	role := &model.Role{
 		RoleName: roleName,
 	}
@@ -101,7 +122,11 @@ func (u *UserMapperImpl) AddUserRoleByRoleName(userId uint, roleName string) err
 			u.DB.Create(role)
 		}
 	}
-	return u.AddUserRoleByRoleId(userId, role.ID)
+	err := u.AddUserRoleByRoleId(userId, role.ID)
+	if err != nil {
+		return nil, err
+	}
+	return role, nil
 }
 
 func (u *UserMapperImpl) AddUserRoleByRoleId(userId uint, roleId uint) error {
@@ -135,11 +160,11 @@ func (u *UserMapperImpl) FindUserRolesById(userId uint) ([]*model.Role, error) {
 }
 
 //role id 必须给到
-func (u *UserMapperImpl) UpdateUserRoles(userId uint, roles []*model.Role) error {
+func (u *UserMapperImpl) UpdateUserRoles(userId uint, roles []*model.Role) (*model.User, error) {
 	tx := u.DB.Begin()
 	if err := tx.Where("user_id = ?", userId).Delete(&model.UserRole{}).Error; err != nil {
 		tx.Rollback()
-		return err
+		return nil, err
 	}
 	for _, r := range roles {
 		userRole := &model.UserRole{
@@ -148,10 +173,14 @@ func (u *UserMapperImpl) UpdateUserRoles(userId uint, roles []*model.Role) error
 		}
 		if err := tx.Create(userRole).Error; err != nil {
 			tx.Rollback()
-			return err
+			return nil, err
 		}
 	}
-	return tx.Commit().Error
+	err := tx.Commit().Error
+	if err != nil {
+		return nil, err
+	}
+	return u.FindUserById(userId)
 }
 
 func (u *UserMapperImpl) DeleteUserById(userId uint) error {
@@ -186,6 +215,7 @@ func (u *UserMapperImpl) FindAllUsers(pageNo int32, pageSize int32) ([]*model.Us
 	result := u.DB.
 		Model(&model.User{}).
 		Count(&count).
+		Preload("UserAuth").
 		Limit(limit).
 		Offset(offset).
 		Find(&users)

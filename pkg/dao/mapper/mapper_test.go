@@ -314,7 +314,7 @@ func TestUserMapperImpl_FindUserByUsername(t *testing.T) {
 
 func TestUserMapperImpl_AddUserRoleByRoleName(t *testing.T) {
 	connectDB()
-	err := user_mapper.UserMapper.AddUserRoleByRoleName(2, "normal")
+	_, err := user_mapper.UserMapper.AddUserRoleByRoleName(2, "normal")
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
@@ -323,7 +323,7 @@ func TestUserMapperImpl_AddUserRoleByRoleName(t *testing.T) {
 
 func TestUserMapperImpl_UpdateUserRoles(t *testing.T) {
 	connectDB()
-	err := user_mapper.UserMapper.UpdateUserRoles(12, []*model.Role{
+	_, err := user_mapper.UserMapper.UpdateUserRoles(12, []*model.Role{
 		{Model: gorm.Model{ID: 7}},
 		{Model: gorm.Model{ID: 8}},
 		{Model: gorm.Model{ID: 9}},
@@ -352,5 +352,16 @@ func TestUserMapperImpl_FindAllUsers(t *testing.T) {
 	}
 	fmt.Printf("count: %v\n", count)
 	str, _ := json.Marshal(users)
+	fmt.Println(string(str))
+}
+
+func TestUserMapperImpl_FindUserById(t *testing.T) {
+	connectDB()
+	user, err := user_mapper.UserMapper.FindUserById(12)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(user)
 	fmt.Println(string(str))
 }
