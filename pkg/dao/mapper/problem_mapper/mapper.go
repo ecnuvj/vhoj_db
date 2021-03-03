@@ -144,7 +144,7 @@ func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, 
 		return nil, 0, nil
 	}
 	limit, offset := util.CalLimitOffset(pageNo, pageSize)
-	result := p.DB.Debug()
+	result := p.DB
 	if param.Title != "" {
 		result = result.Preload("RawProblem", "title LIKE ?", fmt.Sprintf("%%%v%%", param.Title))
 	} else {
@@ -164,7 +164,8 @@ func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, 
 			retProblems = append(retProblems, problem)
 		}
 	}
-	return retProblems[offset : offset+limit], int32(len(retProblems)), nil
+	left, right := util.CalSliceLeftRight(limit, offset, int32(cap(retProblems)))
+	return retProblems[left:right], int32(len(retProblems)), nil
 }
 
 func (p *ProblemMapperImpl) AddProblemGroup(group *model.ProblemGroup) (*model.ProblemGroup, error) {
