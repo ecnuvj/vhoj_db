@@ -8,12 +8,12 @@ import (
 type RawProblem struct {
 	gorm.Model
 	Title           string
-	Description     string
+	Description     string `gorm:"type:text"`
 	SampleInput     string
 	SampleOutput    string
 	Input           string
 	Output          string
-	Hint            string
+	Hint            string             `gorm:"type:text"`
 	RemoteOJ        remote_oj.RemoteOJ `gorm:"unique_index:uni_idx_pid"`
 	RemoteProblemId string             `gorm:"unique_index:uni_idx_pid"`
 	TimeLimit       string
