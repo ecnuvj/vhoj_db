@@ -11,8 +11,8 @@ type RawProblem struct {
 	Description     string `gorm:"type:text"`
 	SampleInput     string
 	SampleOutput    string
-	Input           string
-	Output          string
+	Input           string             `gorm:"type:text"`
+	Output          string             `gorm:"type:text"`
 	Hint            string             `gorm:"type:text"`
 	RemoteOJ        remote_oj.RemoteOJ `gorm:"unique_index:uni_idx_pid"`
 	RemoteProblemId string             `gorm:"unique_index:uni_idx_pid"`
