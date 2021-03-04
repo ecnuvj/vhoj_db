@@ -3,6 +3,7 @@ package mapper
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/ecnuvj/vhoj_common/pkg/common/constants/contest_status"
 	"github.com/ecnuvj/vhoj_common/pkg/common/constants/language"
 	"github.com/ecnuvj/vhoj_common/pkg/common/constants/remote_oj"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/datasource"
@@ -233,9 +234,9 @@ func TestProblemMapperImpl_SearchProblemByCondition(t *testing.T) {
 func TestContestMapperImpl_CreateContest(t *testing.T) {
 	connectDB()
 	contest := &model.Contest{
-		Title:       "first contest",
+		Title:       "efgh",
 		Description: "hello world",
-		UserId:      1,
+		UserId:      9,
 		ProblemNum:  2,
 		ProblemIds:  []uint{2, 3},
 		StartTime:   time.Now(),
@@ -249,14 +250,31 @@ func TestContestMapperImpl_CreateContest(t *testing.T) {
 	str, _ := json.Marshal(contest)
 	fmt.Println(string(str))
 }
-
-func TestContestMapperImpl_FindAllContests(t *testing.T) {
+func TestContestMapperImpl_FindContestsByCondition(t *testing.T) {
 	connectDB()
-	contests, _, err := contest_mapper.ContestMapper.FindAllContests(1, 5)
+	condition := &contest_mapper.SearchContestCondition{
+		Status:      contest_status.ENDED,
+		Title:       "contest",
+		CreatorName: "tcg",
+	}
+	contests, count, err := contest_mapper.ContestMapper.FindContestsByCondition(condition, 1, 2)
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
 	}
+	fmt.Printf("count: %v\n", count)
+	str, _ := json.Marshal(contests)
+	fmt.Println(string(str))
+}
+
+func TestContestMapperImpl_FindAllContests(t *testing.T) {
+	connectDB()
+	contests, count, err := contest_mapper.ContestMapper.FindAllContests(1, 5)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	fmt.Printf("count: %v\n", count)
 	str, _ := json.Marshal(contests)
 	fmt.Println(string(str))
 }

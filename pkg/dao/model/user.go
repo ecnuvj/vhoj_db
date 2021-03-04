@@ -12,7 +12,6 @@ type User struct {
 	School       string
 	Roles        []*Role `gorm:"-"`
 	GenerateUser bool
-	ContestId    uint
 	Submitted    int64
 	Accepted     int64
 }

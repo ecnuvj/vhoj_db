@@ -154,7 +154,7 @@ func (p *ProblemMapperImpl) FindProblemsByIds(problemIds []uint) ([]*model.Probl
 
 func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, pageNo int32, pageSize int32) ([]*model.Problem, int32, error) {
 	if (param.ProblemId == 0 && param.Title == "") || param == nil {
-		return nil, 0, nil
+		return p.FindAllProblems(pageNo, pageSize)
 	}
 	limit, offset := util.CalLimitOffset(pageNo, pageSize)
 	result := p.DB
