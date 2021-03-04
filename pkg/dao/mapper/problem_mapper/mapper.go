@@ -21,6 +21,7 @@ type IProblemMapper interface {
 	FindGroupProblemsById(uint) ([]*model.ProblemGroup, error)
 	FindAllProblems(int32, int32) ([]*model.Problem, int32, error)
 	FindProblemById(uint) (*model.Problem, error)
+	FindProblemsByIds([]uint) ([]*model.Problem, error)
 	SearchProblemByCondition(*ProblemSearchParam, int32, int32) ([]*model.Problem, int32, error)
 }
 
@@ -137,6 +138,18 @@ func (p *ProblemMapperImpl) FindProblemById(problemId uint) (*model.Problem, err
 		return nil, result.Error
 	}
 	return problem, nil
+}
+
+func (p *ProblemMapperImpl) FindProblemsByIds(problemIds []uint) ([]*model.Problem, error) {
+	var problems []*model.Problem
+	result := p.DB.
+		Model(&model.Problem{}).
+		Preload("RawProblem").
+		Find(&problems, problemIds)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return problems, nil
 }
 
 func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, pageNo int32, pageSize int32) ([]*model.Problem, int32, error) {

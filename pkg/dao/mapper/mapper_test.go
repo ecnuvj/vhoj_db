@@ -365,3 +365,14 @@ func TestUserMapperImpl_FindUserById(t *testing.T) {
 	str, _ := json.Marshal(user)
 	fmt.Println(string(str))
 }
+
+func TestProblemMapperImpl_FindProblemsByIds(t *testing.T) {
+	connectDB()
+	problems, err := problem_mapper.ProblemMapper.FindProblemsByIds([]uint{1, 2, 3})
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(problems)
+	fmt.Println(string(str))
+}
