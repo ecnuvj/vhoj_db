@@ -1,10 +1,20 @@
 package submission_mapper
 
 import (
+	"github.com/ecnuvj/vhoj_common/pkg/common/constants/language"
+	"github.com/ecnuvj/vhoj_common/pkg/common/constants/status_type"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/mapper/problem_mapper"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/model"
+	"github.com/ecnuvj/vhoj_db/pkg/util"
 	"github.com/jinzhu/gorm"
 )
+
+type SearchSubmissionCondition struct {
+	Username  string
+	ProblemId uint
+	Status    status_type.SubmissionStatusType
+	Language  language.Language
+}
 
 type ISubmissionMapper interface {
 	AddOrModifySubmission(submission *model.Submission) (*model.Submission, error)
@@ -13,6 +23,7 @@ type ISubmissionMapper interface {
 	UpdateSubmissionById(submission *model.Submission) (*model.Submission, error)
 	UpdateSubmissionCEInfoById(submissionId uint, info string) error
 	ResetSubmissionById(submissionId uint) error
+	FindSubmissions(pageNo int32, pageSize int32, condition *SearchSubmissionCondition) ([]*model.Submission, int32, error)
 }
 
 var SubmissionMapper ISubmissionMapper
@@ -116,4 +127,35 @@ func (s *SubmissionMapperImpl) ResetSubmissionById(submissionId uint) error {
 		return result.Error
 	}
 	return nil
+}
+
+func (s *SubmissionMapperImpl) FindSubmissions(pageNo int32, pageSize int32, condition *SearchSubmissionCondition) ([]*model.Submission, int32, error) {
+	result := s.DB.Model(&model.Submission{})
+	limit, offset := util.CalLimitOffset(pageNo, pageSize)
+	if condition == nil {
+		condition = &SearchSubmissionCondition{}
+	}
+	var count int32
+	var submissions []*model.Submission
+	if condition.Username != "" {
+		result = result.Where("username = ?", condition.Username)
+	}
+	if condition.ProblemId != 0 {
+		result = result.Where("problem_id = ?", condition.ProblemId)
+	}
+	if condition.Status != 0 {
+		result = result.Where("result = ?", condition.Status)
+	}
+	if condition.Language != 0 {
+		result = result.Where("language = ?", condition.Language)
+	}
+	result = result.
+		Count(&count).
+		Limit(limit).
+		Offset(offset).
+		Find(&submissions)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+	return submissions, count, nil
 }

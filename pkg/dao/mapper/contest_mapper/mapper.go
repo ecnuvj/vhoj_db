@@ -22,10 +22,14 @@ type IContestMapper interface {
 	FindAllContests(int32, int32) ([]*model.Contest, int32, error)
 	FindContestById(uint) (*model.Contest, error)
 	FindContestsByCondition(*SearchContestCondition, int32, int32) ([]*model.Contest, int32, error)
-	AddContestParticipants(uint, []uint) error
-	AddContestAdmins(uint, []uint) error
 	FindContestAdmins(uint) ([]uint, error)
 	FindContestParticipants(uint) ([]uint, error)
+	AddContestParticipants(uint, []uint) error
+	AddContestAdmins(uint, []uint) error
+	AddContestProblem(uint, uint) error
+	DeleteContestProblem(uint, uint) error
+	DeleteContestAdmin(uint, uint) error
+	UpdateContest(*model.Contest) (*model.Contest, error)
 }
 
 var ContestMapper IContestMapper
@@ -56,14 +60,29 @@ func (c *ContestMapperImpl) BatchSave(contestId uint, tableName string, column s
 }
 
 func (c *ContestMapperImpl) CreateContest(contest *model.Contest) (*model.Contest, error) {
-	result := c.DB.Create(contest)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	err := c.BatchSave(contest.ID, "contest_problems", "problem_id", contest.ProblemIds)
-	if err != nil {
+	tx := c.DB.Begin()
+	//避免更新user
+	contest.User = nil
+	if err := tx.Create(contest).Error; err != nil {
+		tx.Rollback()
 		return nil, err
 	}
+	contestId := contest.ID
+	err := c.BatchSave(contestId, "contest_problems", "problem_id", contest.ProblemIds)
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+	/*未commit之前find不到
+	contest, _ = c.FindContestById(contestId)
+	if err := tx.Commit().Error; err != nil {
+		return nil, err
+	}
+	*/
+	if err := tx.Commit().Error; err != nil {
+		return nil, err
+	}
+	contest, _ = c.FindContestById(contestId)
 	return contest, nil
 }
 
@@ -212,4 +231,50 @@ func (c *ContestMapperImpl) FindContestParticipants(contestId uint) ([]uint, err
 		userIds[i] = u.UserId
 	}
 	return userIds, nil
+}
+
+func (c *ContestMapperImpl) AddContestProblem(contestId uint, problemId uint) error {
+	contestProblem := &model.ContestProblem{
+		ContestId: contestId,
+		ProblemId: problemId,
+	}
+	result := c.DB.Create(contestProblem)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (c *ContestMapperImpl) DeleteContestProblem(contestId uint, problemId uint) error {
+	result := c.DB.
+		Where("contest_id = ? and problem_id = ?", contestId, problemId).
+		Delete(&model.ContestProblem{})
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (c *ContestMapperImpl) DeleteContestAdmin(contestId uint, userId uint) error {
+	result := c.DB.
+		Where("contest_id = ? and user_id = ?", contestId, userId).
+		Delete(&model.ContestAdmin{})
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (c *ContestMapperImpl) UpdateContest(contest *model.Contest) (*model.Contest, error) {
+	if contest.ID == 0 {
+		return nil, fmt.Errorf("update contest need contest id")
+	}
+	user := contest.User
+	contest.User = nil
+	result := c.DB.Model(&model.Contest{}).Update(contest)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	contest.User = user
+	return contest, nil
 }

@@ -1,6 +1,7 @@
 package user_mapper
 
 import (
+	"fmt"
 	"github.com/ecnuvj/vhoj_db/pkg/dao/model"
 	"github.com/ecnuvj/vhoj_db/pkg/util"
 	"github.com/jinzhu/gorm"
@@ -10,6 +11,8 @@ type IUserMapper interface {
 	AddUser(*model.User) (*model.User, error)
 	AddUserRoleByRoleName(uint, string) (*model.Role, error)
 	AddUserRoleByRoleId(uint, uint) error
+	AddUserSubmitCountById(uint) error
+	AddUserAcceptCountById(uint) error
 	UpdateUser(*model.User) (*model.User, error)
 	UpdateUserRoles(uint, []*model.Role) (*model.User, error)
 	FindUsersByIds([]uint) ([]*model.User, error)
@@ -226,4 +229,30 @@ func (u *UserMapperImpl) FindAllUsers(pageNo int32, pageSize int32) ([]*model.Us
 		users[i].Roles, _ = u.FindUserRolesById(user.ID)
 	}
 	return users, count, nil
+}
+
+func (u *UserMapperImpl) AddUserSubmitCountById(userId uint) error {
+	if userId <= 0 {
+		return fmt.Errorf("user id is incorrect")
+	}
+	result := u.DB.
+		Model(&model.User{Model: gorm.Model{ID: userId}}).
+		Update("submitted", gorm.Expr("submitted + ?", 1))
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (u *UserMapperImpl) AddUserAcceptCountById(userId uint) error {
+	if userId <= 0 {
+		return fmt.Errorf("problem id is incorrect")
+	}
+	result := u.DB.
+		Model(&model.User{Model: gorm.Model{ID: userId}}).
+		Update("accepted", gorm.Expr("accepted + ?", 1))
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }

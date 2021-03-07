@@ -237,7 +237,6 @@ func TestContestMapperImpl_CreateContest(t *testing.T) {
 		Title:       "efgh",
 		Description: "hello world",
 		UserId:      9,
-		ProblemNum:  2,
 		ProblemIds:  []uint{2, 3},
 		StartTime:   time.Now(),
 		EndTime:     time.Now().Add(time.Hour * 5),
@@ -392,5 +391,63 @@ func TestProblemMapperImpl_FindProblemsByIds(t *testing.T) {
 		return
 	}
 	str, _ := json.Marshal(problems)
+	fmt.Println(string(str))
+}
+
+func TestContestMapperImpl_AddContestProblem(t *testing.T) {
+	connectDB()
+	err := contest_mapper.ContestMapper.AddContestProblem(15, 3)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestContestMapperImpl_DeleteContestProblem(t *testing.T) {
+	connectDB()
+	err := contest_mapper.ContestMapper.DeleteContestProblem(15, 3)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestContestMapperImpl_DeleteContestAdmin(t *testing.T) {
+	connectDB()
+	err := contest_mapper.ContestMapper.DeleteContestAdmin(4, 1)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestContestMapperImpl_UpdateContest(t *testing.T) {
+	connectDB()
+	contest, _ := contest_mapper.ContestMapper.FindContestById(15)
+	contest.Title = contest.Title + "-test"
+	con, err := contest_mapper.ContestMapper.UpdateContest(contest)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(con)
+	fmt.Println(string(str))
+}
+
+func TestSubmissionMapperImpl_FindSubmissions(t *testing.T) {
+	connectDB()
+	condition := &submission_mapper.SearchSubmissionCondition{
+		Username:  "",
+		ProblemId: 2,
+		Status:    7,
+		Language:  0,
+	}
+	submissions, count, err := submission_mapper.SubmissionMapper.FindSubmissions(1, 5, condition)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	fmt.Println(count)
+	str, _ := json.Marshal(submissions)
 	fmt.Println(string(str))
 }

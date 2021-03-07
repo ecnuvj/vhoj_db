@@ -12,6 +12,7 @@ type Submission struct {
 	SubmissionCode *SubmissionCode
 	ProblemId      uint
 	UserId         uint
+	Username       string
 	Result         status_type.SubmissionStatusType
 	TimeCost       int64
 	MemoryCost     int64

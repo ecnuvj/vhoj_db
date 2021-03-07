@@ -11,7 +11,6 @@ type Contest struct {
 	Description string
 	UserId      uint
 	User        *User
-	ProblemNum  int64
 	ProblemIds  []uint `gorm:"-"`
 	StartTime   time.Time
 	EndTime     time.Time
