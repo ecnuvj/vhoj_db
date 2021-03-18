@@ -451,3 +451,14 @@ func TestSubmissionMapperImpl_FindSubmissions(t *testing.T) {
 	str, _ := json.Marshal(submissions)
 	fmt.Println(string(str))
 }
+
+func TestUserMapperImpl_FindRoleList(t *testing.T) {
+	connectDB()
+	roles, err := user_mapper.UserMapper.FindRoleList()
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(roles)
+	fmt.Println(string(str))
+}

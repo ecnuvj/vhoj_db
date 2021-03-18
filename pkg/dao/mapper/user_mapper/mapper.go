@@ -20,6 +20,7 @@ type IUserMapper interface {
 	FindUserByUsername(string) (*model.User, error)
 	FindUserRolesById(uint) ([]*model.Role, error)
 	FindAllUsers(int32, int32) ([]*model.User, int32, error)
+	FindRoleList() ([]*model.Role, error)
 	DeleteUserById(uint) error
 }
 
@@ -255,4 +256,15 @@ func (u *UserMapperImpl) AddUserAcceptCountById(userId uint) error {
 		return result.Error
 	}
 	return nil
+}
+
+func (u *UserMapperImpl) FindRoleList() ([]*model.Role, error) {
+	var roles []*model.Role
+	result := u.DB.
+		Model(&model.Role{}).
+		Find(&roles)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return roles, nil
 }

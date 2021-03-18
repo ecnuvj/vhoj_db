@@ -16,7 +16,8 @@ type IProblemMapper interface {
 	AddOrModifyRawProblem(*model.RawProblem) (*model.RawProblem, error)
 	AddProblemSubmittedCountById(uint) error
 	AddProblemAcceptedCountById(uint) error
-	AddProblemGroup(*model.ProblemGroup) (*model.ProblemGroup, error)
+	AddOrModifyProblemGroup(*model.ProblemGroup) (*model.ProblemGroup, error)
+	AddOrModifyProblem(*model.Problem) (*model.Problem, error)
 	UpdateProblemGroupId(uint, uint) error
 	FindGroupProblemsById(uint) ([]*model.ProblemGroup, error)
 	FindAllProblems(int32, int32) ([]*model.Problem, int32, error)
@@ -48,7 +49,7 @@ func (p *ProblemMapperImpl) AddOrModifyRawProblem(rawProblem *model.RawProblem) 
 		}
 	} else {
 		result := p.DB.
-			Model(&rawProblem).
+			Model(rawProblem).
 			Where("remote_oj = ? and remote_problem_id = ?", rawProblem.RemoteOJ, rawProblem.RemoteProblemId).
 			Update(rawProblem)
 		if result.Error != nil {
@@ -181,10 +182,19 @@ func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, 
 	return retProblems[left:right], int32(len(retProblems)), nil
 }
 
-func (p *ProblemMapperImpl) AddProblemGroup(group *model.ProblemGroup) (*model.ProblemGroup, error) {
-	if err := p.DB.Where("raw_problem_id = ?", group.RawProblemId).Find(group).Error; err != nil {
+func (p *ProblemMapperImpl) AddOrModifyProblemGroup(group *model.ProblemGroup) (*model.ProblemGroup, error) {
+	var tmpGroup *model.ProblemGroup
+	if err := p.DB.Where("raw_problem_id = ?", group.RawProblemId).Find(tmpGroup).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			p.DB.Create(group)
+		}
+	} else {
+		result := p.DB.
+			Model(group).
+			Where("raw_problem_id = ?", group.RawProblemId).
+			Update(group)
+		if result.Error != nil {
+			return nil, result.Error
 		}
 	}
 	return group, nil
@@ -199,4 +209,25 @@ func (p *ProblemMapperImpl) UpdateProblemGroupId(rawProblemId uint, groupId uint
 		return result.Error
 	}
 	return nil
+}
+
+func (p *ProblemMapperImpl) AddOrModifyProblem(problem *model.Problem) (*model.Problem, error) {
+	var tmpProblem *model.Problem
+	if err := p.DB.Where("group_id = ?", problem.GroupId).Find(tmpProblem).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			result := p.DB.Create(problem)
+			if result.Error != nil {
+				return nil, result.Error
+			}
+		}
+	} else {
+		result := p.DB.
+			Model(problem).
+			Where("group_id = ?", problem.GroupId).
+			Update(problem)
+		if result.Error != nil {
+			return nil, result.Error
+		}
+	}
+	return problem, nil
 }
