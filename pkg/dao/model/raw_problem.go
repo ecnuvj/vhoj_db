@@ -8,9 +8,9 @@ import (
 type RawProblem struct {
 	gorm.Model
 	Title           string
-	Description     string `gorm:"type:text"`
-	SampleInput     string
-	SampleOutput    string
+	Description     string             `gorm:"type:text"`
+	SampleInput     string             `gorm:"type:text"`
+	SampleOutput    string             `gorm:"type:text"`
 	Input           string             `gorm:"type:text"`
 	Output          string             `gorm:"type:text"`
 	Hint            string             `gorm:"type:text"`

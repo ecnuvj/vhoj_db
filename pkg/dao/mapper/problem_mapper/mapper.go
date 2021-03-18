@@ -51,7 +51,8 @@ func (p *ProblemMapperImpl) AddOrModifyRawProblem(rawProblem *model.RawProblem) 
 		result := p.DB.
 			Model(rawProblem).
 			Where("remote_oj = ? and remote_problem_id = ?", rawProblem.RemoteOJ, rawProblem.RemoteProblemId).
-			Update(rawProblem)
+			Update(rawProblem).
+			First(rawProblem)
 		if result.Error != nil {
 			return nil, result.Error
 		}
@@ -183,16 +184,20 @@ func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, 
 }
 
 func (p *ProblemMapperImpl) AddOrModifyProblemGroup(group *model.ProblemGroup) (*model.ProblemGroup, error) {
-	var tmpGroup *model.ProblemGroup
-	if err := p.DB.Where("raw_problem_id = ?", group.RawProblemId).Find(tmpGroup).Error; err != nil {
+	var tmpGroup model.ProblemGroup
+	if err := p.DB.Where("raw_problem_id = ?", group.RawProblemId).First(&tmpGroup).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
-			p.DB.Create(group)
+			result := p.DB.Create(group)
+			if result.Error != nil {
+				return nil, result.Error
+			}
 		}
 	} else {
 		result := p.DB.
 			Model(group).
 			Where("raw_problem_id = ?", group.RawProblemId).
-			Update(group)
+			Update(group).
+			First(group)
 		if result.Error != nil {
 			return nil, result.Error
 		}
@@ -212,8 +217,8 @@ func (p *ProblemMapperImpl) UpdateProblemGroupId(rawProblemId uint, groupId uint
 }
 
 func (p *ProblemMapperImpl) AddOrModifyProblem(problem *model.Problem) (*model.Problem, error) {
-	var tmpProblem *model.Problem
-	if err := p.DB.Where("group_id = ?", problem.GroupId).Find(tmpProblem).Error; err != nil {
+	var tmpProblem model.Problem
+	if err := p.DB.Where("group_id = ?", problem.GroupId).First(&tmpProblem).Error; err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			result := p.DB.Create(problem)
 			if result.Error != nil {
@@ -224,7 +229,8 @@ func (p *ProblemMapperImpl) AddOrModifyProblem(problem *model.Problem) (*model.P
 		result := p.DB.
 			Model(problem).
 			Where("group_id = ?", problem.GroupId).
-			Update(problem)
+			Update(problem).
+			First(problem)
 		if result.Error != nil {
 			return nil, result.Error
 		}

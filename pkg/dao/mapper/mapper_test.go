@@ -462,3 +462,43 @@ func TestUserMapperImpl_FindRoleList(t *testing.T) {
 	str, _ := json.Marshal(roles)
 	fmt.Println(string(str))
 }
+
+func TestProblemMapperImpl_AddOrModifyProblemGroup(t *testing.T) {
+	connectDB()
+	_, err := problem_mapper.ProblemMapper.AddOrModifyProblemGroup(&model.ProblemGroup{
+		RawProblemId:    2,
+		GroupId:         2,
+		MainProblem:     true,
+		RemoteOJ:        remote_oj.HDU,
+		RemoteProblemId: "1000",
+	})
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestSubmissionMapperImpl_FindSubmissionsGroupByResult(t *testing.T) {
+	connectDB()
+	submissions, err := submission_mapper.SubmissionMapper.FindSubmissionsGroupByResult(&submission_mapper.UserSubmissionCondition{
+		UserId:    28,
+		ProblemId: 2,
+		ContestId: 0,
+	})
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(submissions)
+	fmt.Println(string(str))
+}
+
+func TestSubmissionMapperImpl_FindSubmissionsByContestId(t *testing.T) {
+	connectDB()
+	submissions, err := submission_mapper.SubmissionMapper.FindSubmissionsByContestId(1)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	fmt.Println(len(submissions))
+}

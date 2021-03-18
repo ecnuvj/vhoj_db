@@ -16,14 +16,22 @@ type SearchSubmissionCondition struct {
 	Language  language.Language
 }
 
+type UserSubmissionCondition struct {
+	UserId    uint
+	ProblemId uint
+	ContestId uint
+}
+
 type ISubmissionMapper interface {
 	AddOrModifySubmission(submission *model.Submission) (*model.Submission, error)
 	FindSubmissionById(submissionId uint) (*model.Submission, error)
 	FindProblemGroupById(submissionId uint) ([]*model.ProblemGroup, error)
+	FindSubmissions(pageNo int32, pageSize int32, condition *SearchSubmissionCondition) ([]*model.Submission, int32, error)
+	FindSubmissionsGroupByResult(condition *UserSubmissionCondition) ([]*model.Submission, error)
+	FindSubmissionsByContestId(uint) ([]*model.Submission, error)
 	UpdateSubmissionById(submission *model.Submission) (*model.Submission, error)
 	UpdateSubmissionCEInfoById(submissionId uint, info string) error
 	ResetSubmissionById(submissionId uint) error
-	FindSubmissions(pageNo int32, pageSize int32, condition *SearchSubmissionCondition) ([]*model.Submission, int32, error)
 }
 
 var SubmissionMapper ISubmissionMapper
@@ -151,6 +159,7 @@ func (s *SubmissionMapperImpl) FindSubmissions(pageNo int32, pageSize int32, con
 	}
 	result = result.
 		Count(&count).
+		Order("updated_at desc").
 		Limit(limit).
 		Offset(offset).
 		Find(&submissions)
@@ -158,4 +167,30 @@ func (s *SubmissionMapperImpl) FindSubmissions(pageNo int32, pageSize int32, con
 		return nil, 0, result.Error
 	}
 	return submissions, count, nil
+}
+
+func (s *SubmissionMapperImpl) FindSubmissionsGroupByResult(condition *UserSubmissionCondition) ([]*model.Submission, error) {
+	var submissions []*model.Submission
+	result := s.DB.
+		Model(&model.Submission{}).
+		Select("result").
+		Where("user_id = ? and problem_id = ? and contest_id = ?", condition.UserId, condition.ProblemId, condition.ContestId).
+		Group("result").
+		Find(&submissions)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return submissions, nil
+}
+
+func (s *SubmissionMapperImpl) FindSubmissionsByContestId(contestId uint) ([]*model.Submission, error) {
+	var submission []*model.Submission
+	result := s.DB.
+		Model(&model.Submission{}).
+		Where("contest_id = ?", contestId).
+		Find(&submission)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return submission, nil
 }
