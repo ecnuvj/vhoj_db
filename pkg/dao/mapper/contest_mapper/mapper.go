@@ -25,6 +25,7 @@ type IContestMapper interface {
 	FindContestAdmins(uint) ([]uint, error)
 	FindContestParticipants(uint) ([]uint, error)
 	FindContestProblems(uint) ([]*model.ContestProblem, error)
+	FindUserContests(userId uint, pageNo int32, pageSize int32) ([]*model.Contest, int32, error)
 	AddContestParticipants(uint, []uint) error
 	AddContestAdmins(uint, []uint) error
 	AddContestProblem(uint, uint) error
@@ -313,4 +314,35 @@ func (c *ContestMapperImpl) FindContestProblems(contestId uint) ([]*model.Contes
 		return nil, result.Error
 	}
 	return contestProblems, nil
+}
+
+func (c *ContestMapperImpl) FindUserContests(userId uint, pageNo int32, pageSize int32) ([]*model.Contest, int32, error) {
+	var contestAdmins []*model.ContestAdmin
+	result := c.DB.
+		Table("contest_admins").
+		Where("user_id = ?", userId).
+		Find(&contestAdmins)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+	contestIds := make([]uint, len(contestAdmins))
+	for i, c := range contestAdmins {
+		contestIds[i] = c.ContestId
+	}
+	var count int32
+	var contests []*model.Contest
+	limit, offset := util.CalLimitOffset(pageNo, pageSize)
+	result = c.DB.
+		Model(&model.Contest{}).
+		Where("user_id = ?", userId).
+		Or("id in (?)", contestIds).
+		Count(&count).
+		Preload("User").
+		Limit(limit).
+		Offset(offset).
+		Find(&contests)
+	if result.Error != nil {
+		return nil, 0, result.Error
+	}
+	return contests, count, nil
 }

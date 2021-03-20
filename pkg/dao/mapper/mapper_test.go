@@ -550,3 +550,15 @@ func TestProblemMapperImpl_AddContestProblemSubmittedCountById(t *testing.T) {
 	connectDB()
 	_ = problem_mapper.ProblemMapper.AddContestProblemAcceptedCountById(15, 1)
 }
+
+func TestContestMapperImpl_FindUserContests(t *testing.T) {
+	connectDB()
+	contests, count, err := contest_mapper.ContestMapper.FindUserContests(28, 1, 5)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	fmt.Println(count)
+	str, _ := json.Marshal(contests)
+	fmt.Println(string(str))
+}
