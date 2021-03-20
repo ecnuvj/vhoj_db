@@ -18,18 +18,20 @@ type SearchContestCondition struct {
 }
 
 type IContestMapper interface {
-	CreateContest(*model.Contest) (*model.Contest, error)
+	CreateContest(*model.Contest, []*model.ContestProblem) (*model.Contest, error)
 	FindAllContests(int32, int32) ([]*model.Contest, int32, error)
 	FindContestById(uint) (*model.Contest, error)
 	FindContestsByCondition(*SearchContestCondition, int32, int32) ([]*model.Contest, int32, error)
 	FindContestAdmins(uint) ([]uint, error)
 	FindContestParticipants(uint) ([]uint, error)
+	FindContestProblems(uint) ([]*model.ContestProblem, error)
 	AddContestParticipants(uint, []uint) error
 	AddContestAdmins(uint, []uint) error
 	AddContestProblem(uint, uint) error
 	DeleteContestProblem(uint, uint) error
 	DeleteContestAdmin(uint, uint) error
 	UpdateContest(*model.Contest) (*model.Contest, error)
+	UpdateContestProblems(uint, []*model.ContestProblem) ([]*model.ContestProblem, error)
 }
 
 var ContestMapper IContestMapper
@@ -59,19 +61,21 @@ func (c *ContestMapperImpl) BatchSave(contestId uint, tableName string, column s
 	return c.DB.Exec(buffer.String()).Error
 }
 
-func (c *ContestMapperImpl) CreateContest(contest *model.Contest) (*model.Contest, error) {
+func (c *ContestMapperImpl) CreateContest(contest *model.Contest, problems []*model.ContestProblem) (*model.Contest, error) {
 	tx := c.DB.Begin()
 	//避免更新user
+	user := contest.User
 	contest.User = nil
 	if err := tx.Create(contest).Error; err != nil {
 		tx.Rollback()
 		return nil, err
 	}
-	contestId := contest.ID
-	err := c.BatchSave(contestId, "contest_problems", "problem_id", contest.ProblemIds)
-	if err != nil {
-		tx.Rollback()
-		return nil, err
+	for _, p := range problems {
+		p.ContestId = contest.ID
+		if err := tx.Create(p).Error; err != nil {
+			tx.Rollback()
+			return nil, err
+		}
 	}
 	/*未commit之前find不到
 	contest, _ = c.FindContestById(contestId)
@@ -82,7 +86,7 @@ func (c *ContestMapperImpl) CreateContest(contest *model.Contest) (*model.Contes
 	if err := tx.Commit().Error; err != nil {
 		return nil, err
 	}
-	contest, _ = c.FindContestById(contestId)
+	contest.User = user
 	return contest, nil
 }
 
@@ -114,7 +118,7 @@ func (c *ContestMapperImpl) FindAllContests(pageNo int32, PageSize int32) ([]*mo
 }
 
 func (c *ContestMapperImpl) FindContestsByCondition(condition *SearchContestCondition, pageNo int32, pageSize int32) ([]*model.Contest, int32, error) {
-	if condition == nil {
+	if condition == nil || (condition.Title == "" && condition.Status == 0 && condition.CreatorName == "") {
 		return c.FindAllContests(pageNo, pageSize)
 	}
 	limit, offset := util.CalLimitOffset(pageNo, pageSize)
@@ -134,8 +138,9 @@ func (c *ContestMapperImpl) FindContestsByCondition(condition *SearchContestCond
 	}
 	if condition.CreatorName != "" {
 		user, err := user_mapper.UserMapper.FindUserByUsername(condition.CreatorName)
+		//没有此用户 直接返回
 		if err != nil || user == nil {
-			return nil, 0, fmt.Errorf("search contest by creator condition error: %v", err)
+			return contests, 0, nil
 		}
 		result = result.Where("user_id = ?", user.ID)
 	}
@@ -277,4 +282,35 @@ func (c *ContestMapperImpl) UpdateContest(contest *model.Contest) (*model.Contes
 	}
 	contest.User = user
 	return contest, nil
+}
+
+func (c *ContestMapperImpl) UpdateContestProblems(contestId uint, problems []*model.ContestProblem) ([]*model.ContestProblem, error) {
+	tx := c.DB.Begin()
+	if err := tx.Where("contest_id = ?", contestId).Delete(&model.ContestProblem{}).Error; err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+	for _, p := range problems {
+		p.ContestId = contestId
+		if err := tx.Create(p).Error; err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+	}
+	if err := tx.Commit().Error; err != nil {
+		return nil, err
+	}
+	return problems, nil
+}
+
+func (c *ContestMapperImpl) FindContestProblems(contestId uint) ([]*model.ContestProblem, error) {
+	var contestProblems []*model.ContestProblem
+	result := c.DB.
+		Table("contest_problems").
+		Where("contest_id = ?", contestId).
+		Find(&contestProblems)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return contestProblems, nil
 }

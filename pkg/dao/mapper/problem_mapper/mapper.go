@@ -16,6 +16,8 @@ type IProblemMapper interface {
 	AddOrModifyRawProblem(*model.RawProblem) (*model.RawProblem, error)
 	AddProblemSubmittedCountById(uint) error
 	AddProblemAcceptedCountById(uint) error
+	AddContestProblemSubmittedCountById(contestId uint, problemId uint) error
+	AddContestProblemAcceptedCountById(contestId uint, problemId uint) error
 	AddOrModifyProblemGroup(*model.ProblemGroup) (*model.ProblemGroup, error)
 	AddOrModifyProblem(*model.Problem) (*model.Problem, error)
 	UpdateProblemGroupId(uint, uint) error
@@ -236,4 +238,26 @@ func (p *ProblemMapperImpl) AddOrModifyProblem(problem *model.Problem) (*model.P
 		}
 	}
 	return problem, nil
+}
+
+func (p *ProblemMapperImpl) AddContestProblemSubmittedCountById(contestId uint, problemId uint) error {
+	result := p.DB.
+		Table("contest_problems").
+		Where("contest_id = ? and problem_id = ?", contestId, problemId).
+		Update("submitted", gorm.Expr("submitted + ?", 1))
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (p *ProblemMapperImpl) AddContestProblemAcceptedCountById(contestId uint, problemId uint) error {
+	result := p.DB.
+		Table("contest_problems").
+		Where("contest_id = ? and problem_id = ?", contestId, problemId).
+		Update("accepted", gorm.Expr("accepted + ?", 1))
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }

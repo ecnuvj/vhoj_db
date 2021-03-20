@@ -102,7 +102,7 @@ func TestSubmissionMapperAddSubmission(t *testing.T) {
 
 func TestSubmissionMapperFindSubmission(t *testing.T) {
 	connectDB()
-	submission, err := submission_mapper.SubmissionMapper.FindSubmissionById(3)
+	submission, err := submission_mapper.SubmissionMapper.FindSubmissionById(15)
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
@@ -241,7 +241,19 @@ func TestContestMapperImpl_CreateContest(t *testing.T) {
 		StartTime:   time.Now(),
 		EndTime:     time.Now().Add(time.Hour * 5),
 	}
-	contest, err := contest_mapper.ContestMapper.CreateContest(contest)
+	problems := []*model.ContestProblem{
+		{
+			ProblemId:    2,
+			Title:        "test",
+			ProblemOrder: "A",
+		},
+		{
+			ProblemId:    3,
+			Title:        "test2",
+			ProblemOrder: "B",
+		},
+	}
+	contest, err := contest_mapper.ContestMapper.CreateContest(contest, problems)
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
@@ -320,7 +332,7 @@ func TestUserMapperImpl_FindUsersByIds(t *testing.T) {
 
 func TestUserMapperImpl_FindUserByUsername(t *testing.T) {
 	connectDB()
-	user, err := user_mapper.UserMapper.FindUserByUsername("")
+	user, err := user_mapper.UserMapper.FindUserByUsername("bqx")
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
@@ -501,4 +513,40 @@ func TestSubmissionMapperImpl_FindSubmissionsByContestId(t *testing.T) {
 		return
 	}
 	fmt.Println(len(submissions))
+}
+
+func TestContestMapperImpl_UpdateContestProblems(t *testing.T) {
+	connectDB()
+	_, err := contest_mapper.ContestMapper.UpdateContestProblems(15, []*model.ContestProblem{
+		{
+			ContestId:    15,
+			ProblemOrder: "A",
+			ProblemId:    1,
+		},
+		{
+			ContestId:    15,
+			ProblemOrder: "B",
+			ProblemId:    23,
+		},
+	})
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+}
+
+func TestContestMapperImpl_FindContestProblems(t *testing.T) {
+	connectDB()
+	problems, err := contest_mapper.ContestMapper.FindContestProblems(15)
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	str, _ := json.Marshal(problems)
+	fmt.Println(string(str))
+}
+
+func TestProblemMapperImpl_AddContestProblemSubmittedCountById(t *testing.T) {
+	connectDB()
+	_ = problem_mapper.ProblemMapper.AddContestProblemAcceptedCountById(15, 1)
 }

@@ -95,7 +95,7 @@ func (s *SubmissionMapperImpl) UpdateSubmissionCEInfoById(submissionId uint, inf
 func (s *SubmissionMapperImpl) FindSubmissionById(submissionId uint) (*model.Submission, error) {
 	submission := &model.Submission{Model: gorm.Model{ID: submissionId}}
 	code := &model.SubmissionCode{}
-	result := s.DB.Model(submission).Find(submission).Related(&code)
+	result := s.DB.Model(submission).Find(submission).Related(code)
 	if result.Error != nil {
 		return nil, result.Error
 	}
