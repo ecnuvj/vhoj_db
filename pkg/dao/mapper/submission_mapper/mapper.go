@@ -7,6 +7,7 @@ import (
 	"github.com/ecnuvj/vhoj_db/pkg/dao/model"
 	"github.com/ecnuvj/vhoj_db/pkg/util"
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type SearchSubmissionCondition struct {
@@ -28,7 +29,7 @@ type ISubmissionMapper interface {
 	FindProblemGroupById(submissionId uint) ([]*model.ProblemGroup, error)
 	FindSubmissions(pageNo int32, pageSize int32, condition *SearchSubmissionCondition) ([]*model.Submission, int32, error)
 	FindSubmissionsGroupByResult(condition *UserSubmissionCondition) ([]*model.Submission, error)
-	FindSubmissionsByContestId(uint) ([]*model.Submission, error)
+	FindSubmissionsByContestId(uint, time.Time, time.Time) ([]*model.Submission, error)
 	UpdateSubmissionById(submission *model.Submission) (*model.Submission, error)
 	UpdateSubmissionCEInfoById(submissionId uint, info string) error
 	ResetSubmissionById(submissionId uint) error
@@ -183,11 +184,12 @@ func (s *SubmissionMapperImpl) FindSubmissionsGroupByResult(condition *UserSubmi
 	return submissions, nil
 }
 
-func (s *SubmissionMapperImpl) FindSubmissionsByContestId(contestId uint) ([]*model.Submission, error) {
+func (s *SubmissionMapperImpl) FindSubmissionsByContestId(contestId uint, start time.Time, end time.Time) ([]*model.Submission, error) {
 	var submission []*model.Submission
-	result := s.DB.
+	result := s.DB.Debug().
 		Model(&model.Submission{}).
 		Where("contest_id = ?", contestId).
+		Where("created_at > ? and created_at < ?", start, end).
 		Find(&submission)
 	if result.Error != nil {
 		return nil, result.Error
