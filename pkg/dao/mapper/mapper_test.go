@@ -507,7 +507,7 @@ func TestSubmissionMapperImpl_FindSubmissionsGroupByResult(t *testing.T) {
 
 func TestSubmissionMapperImpl_FindSubmissionsByContestId(t *testing.T) {
 	connectDB()
-	submissions, err := submission_mapper.SubmissionMapper.FindSubmissionsByContestId(1)
+	submissions, err := submission_mapper.SubmissionMapper.FindSubmissionsByContestId(1, time.Now(), time.Now())
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
@@ -561,4 +561,14 @@ func TestContestMapperImpl_FindUserContests(t *testing.T) {
 	fmt.Println(count)
 	str, _ := json.Marshal(contests)
 	fmt.Println(string(str))
+}
+
+func TestProblemMapperImpl_FindProblemByRandom(t *testing.T) {
+	connectDB()
+	problem, err := problem_mapper.ProblemMapper.FindProblemByRandom()
+	if err != nil {
+		fmt.Printf("err: %v", err)
+		return
+	}
+	fmt.Println(problem.ID)
 }

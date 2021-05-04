@@ -26,6 +26,8 @@ type IProblemMapper interface {
 	FindProblemById(uint) (*model.Problem, error)
 	FindProblemsByIds([]uint) ([]*model.Problem, error)
 	SearchProblemByCondition(*ProblemSearchParam, int32, int32) ([]*model.Problem, int32, error)
+	DeleteProblemById(uint) error
+	FindProblemByRandom() (*model.Problem, error)
 }
 
 var ProblemMapper IProblemMapper
@@ -260,4 +262,26 @@ func (p *ProblemMapperImpl) AddContestProblemAcceptedCountById(contestId uint, p
 		return result.Error
 	}
 	return nil
+}
+
+func (p *ProblemMapperImpl) DeleteProblemById(problemId uint) error {
+	problem := &model.Problem{
+		Model: gorm.Model{
+			ID: problemId,
+		},
+	}
+	return p.DB.Delete(problem).Error
+}
+
+func (p *ProblemMapperImpl) FindProblemByRandom() (*model.Problem, error) {
+	var problem model.Problem
+	result := p.DB.
+		Model(&problem).
+		Order("rand()").
+		Limit(1).
+		Find(&problem)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &problem, nil
 }
