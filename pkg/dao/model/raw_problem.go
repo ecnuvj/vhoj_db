@@ -16,6 +16,7 @@ type RawProblem struct {
 	Hint            string             `gorm:"type:text"`
 	RemoteOJ        remote_oj.RemoteOJ `gorm:"unique_index:uni_idx_pid"`
 	RemoteProblemId string             `gorm:"unique_index:uni_idx_pid"`
+	RemoteSubmitId  string
 	TimeLimit       string
 	MemoryLimit     string
 	Spj             string

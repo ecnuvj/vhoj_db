@@ -572,3 +572,26 @@ func TestProblemMapperImpl_FindProblemByRandom(t *testing.T) {
 	}
 	fmt.Println(problem.ID)
 }
+
+func TestFindRawProblemsWithGroup(t *testing.T) {
+	connectDB()
+	rawProblems, groups, count, err := problem_mapper.ProblemMapper.FindRawProblemsWithGroup(1, 3)
+	if err != nil {
+		fmt.Println("err: ", err)
+		return
+	}
+	str, _ := json.Marshal(rawProblems)
+	fmt.Println(string(str))
+	str, _ = json.Marshal(groups)
+	fmt.Println(string(str))
+	fmt.Println(count)
+}
+
+func TestUpdateProblemGroup(t *testing.T) {
+	connectDB()
+	err := problem_mapper.ProblemMapper.UpdateProblemGroup(75, 76)
+	if err != nil {
+		fmt.Println("err: ", err)
+		return
+	}
+}

@@ -22,12 +22,14 @@ type IProblemMapper interface {
 	AddOrModifyProblem(*model.Problem) (*model.Problem, error)
 	UpdateProblemGroupId(uint, uint) error
 	FindGroupProblemsById(uint) ([]*model.ProblemGroup, error)
-	FindAllProblems(int32, int32) ([]*model.Problem, int32, error)
+	FindAllProblems(int32, int32, bool) ([]*model.Problem, int32, error)
 	FindProblemById(uint) (*model.Problem, error)
 	FindProblemsByIds([]uint) ([]*model.Problem, error)
 	SearchProblemByCondition(*ProblemSearchParam, int32, int32) ([]*model.Problem, int32, error)
 	DeleteProblemById(uint) error
 	FindProblemByRandom() (*model.Problem, error)
+	FindRawProblemsWithGroup(int32, int32) ([]*model.RawProblem, []*model.ProblemGroup, int32, error)
+	UpdateProblemGroup(uint, uint) error
 }
 
 var ProblemMapper IProblemMapper
@@ -84,7 +86,7 @@ func (p *ProblemMapperImpl) FindGroupProblemsById(problemId uint) ([]*model.Prob
 	return problemGroups, nil
 }
 
-func (p *ProblemMapperImpl) FindAllProblems(page int32, pageSize int32) ([]*model.Problem, int32, error) {
+func (p *ProblemMapperImpl) FindAllProblems(page int32, pageSize int32, desc bool) ([]*model.Problem, int32, error) {
 	limit, offset := util.CalLimitOffset(page, pageSize)
 	var count int32
 	var problems []*model.Problem
@@ -93,8 +95,11 @@ func (p *ProblemMapperImpl) FindAllProblems(page int32, pageSize int32) ([]*mode
 		Count(&count).
 		Preload("RawProblem").
 		Limit(limit).
-		Offset(offset).
-		Find(&problems)
+		Offset(offset)
+	if desc {
+		result = result.Order("updated_at desc")
+	}
+	result.Find(&problems)
 	if result.Error != nil {
 		return nil, 0, result.Error
 	}
@@ -160,7 +165,7 @@ func (p *ProblemMapperImpl) FindProblemsByIds(problemIds []uint) ([]*model.Probl
 
 func (p *ProblemMapperImpl) SearchProblemByCondition(param *ProblemSearchParam, pageNo int32, pageSize int32) ([]*model.Problem, int32, error) {
 	if (param.ProblemId == 0 && param.Title == "") || param == nil {
-		return p.FindAllProblems(pageNo, pageSize)
+		return p.FindAllProblems(pageNo, pageSize, false)
 	}
 	limit, offset := util.CalLimitOffset(pageNo, pageSize)
 	result := p.DB
@@ -284,4 +289,62 @@ func (p *ProblemMapperImpl) FindProblemByRandom() (*model.Problem, error) {
 		return nil, result.Error
 	}
 	return &problem, nil
+}
+
+func (p *ProblemMapperImpl) FindRawProblemsWithGroup(pageNo int32, pageSize int32) ([]*model.RawProblem, []*model.ProblemGroup, int32, error) {
+	limit, offset := util.CalLimitOffset(pageNo, pageSize)
+	var rawProblems []*model.RawProblem
+	var count int32
+	err := p.DB.Debug().
+		Model(&model.RawProblem{}).
+		Count(&count).
+		Limit(limit).
+		Offset(offset).
+		Order("id desc").
+		Find(&rawProblems).
+		Error
+	if err != nil {
+		return nil, nil, 0, err
+	}
+	rawProblemIds := make([]uint, 0, len(rawProblems))
+	for _, rawProblem := range rawProblems {
+		rawProblemIds = append(rawProblemIds, rawProblem.ID)
+	}
+	var problemGroups []*model.ProblemGroup
+	err = p.DB.
+		Model(&model.ProblemGroup{}).
+		Where("raw_problem_id in (?)", rawProblemIds).
+		Find(&problemGroups).Error
+	if err != nil {
+		return nil, nil, 0, err
+	}
+	return rawProblems, problemGroups, count, nil
+}
+func (p *ProblemMapperImpl) UpdateProblemGroup(rawProblemId uint, groupId uint) error {
+	tx := p.DB.Debug().Begin()
+	err := tx.
+		Model(&model.ProblemGroup{}).
+		Where("raw_problem_id = ?", rawProblemId).
+		Update("group_id", groupId).Error
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	var problem model.Problem
+	if err = tx.Where("group_id = ?", groupId).First(&problem).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			problem = model.Problem{
+				GroupId:      groupId,
+				RawProblemId: rawProblemId,
+			}
+			if err = tx.Create(&problem).Error; err != nil {
+				tx.Rollback()
+				return err
+			}
+		} else {
+			tx.Rollback()
+			return err
+		}
+	}
+	return tx.Commit().Error
 }
